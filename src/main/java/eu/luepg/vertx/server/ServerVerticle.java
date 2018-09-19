@@ -20,7 +20,7 @@ public class ServerVerticle extends AbstractVerticle {
     @Override
     public void start(Future<Void> startFuture) {
         // Use our hello World router
-        Router router = helloWorldController.createRouter();
+        Router router = helloWorldController.getRouter();
 
         // Set the content type
         router.route()

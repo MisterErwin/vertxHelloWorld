@@ -10,10 +10,15 @@ import io.vertx.core.*;
  * Created on 18.09.2018.
  */
 public class Main {
+    /**
+     * Entry point
+     *
+     * @param args
+     */
     public static void main(String... args) {
         Vertx vertx = Vertx.vertx();
 
-        DeployHelper.deploy(vertx, ServiceLauncher.class, new DeploymentOptions());
+        start(vertx);
     }
 
     /**
@@ -26,7 +31,9 @@ public class Main {
         return DeployHelper.deploy(vertx, ServiceLauncher.class, new DeploymentOptions());
     }
 
-    //A Verticle that deploys our server verticles with the correct options
+    /**
+     * A Verticle that deploys our server verticles with the correct options
+     */
     static class ServiceLauncher extends AbstractVerticle {
         @Override
         public void start(Future<Void> startFuture) {

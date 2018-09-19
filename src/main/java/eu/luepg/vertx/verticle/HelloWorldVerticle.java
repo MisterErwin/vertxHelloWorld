@@ -28,6 +28,7 @@ public class HelloWorldVerticle extends AbstractVerticle {
 
     @Override
     public void start() {
+        // Listen on the event bus for Const.EVENT_ADDRESS
         MessageConsumer<String> consumer = vertx.eventBus().consumer(Const.EVENT_ADDRESS);
 
         if (messageCreator != null) { //Only reply in case we have a messageCreator

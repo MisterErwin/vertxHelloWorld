@@ -24,21 +24,35 @@ public class HelloWorldController {
     @Inject
     public HelloWorldController(Vertx vertx) {
         this.vertx = vertx;
+        this.router = Router.router(this.vertx);
+        this.router.get().handler(this::handleGreeting);
     }
 
-    public Router createRouter() {
-        if (this.router == null) {
-            this.router = Router.router(vertx);
-            this.router.get().handler(this::handleGreeting);
-        }
-        return this.router;
+
+    /**
+     * Returns our HelloWorld router
+     *
+     * @return the router handling the hello world
+     */
+    public Router getRouter() {
+        return router;
     }
 
+    /**
+     * React to the eb request
+     * @param context - RoutingContext the context
+     */
     private void handleGreeting(RoutingContext context) {
         // Send an event
         vertx.eventBus().send(Const.EVENT_ADDRESS, null, event -> handleReply(context, event));
     }
 
+
+    /**
+     * Reply to a greeting
+     * @param context - RoutingContext the context
+     * @param event - AsyncResult event of the event bus sending
+     */
     private void handleReply(RoutingContext context, AsyncResult<Message<Object>> event) {
         if (event.succeeded()) {
             // Reply
