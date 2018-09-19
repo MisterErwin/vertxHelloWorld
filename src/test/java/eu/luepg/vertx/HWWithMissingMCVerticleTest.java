@@ -1,6 +1,6 @@
 package eu.luepg.vertx;
 
-import eu.luepg.vertx.guice.TestGuiceBinder;
+import eu.luepg.vertx.guice.TestGuiceBinderMissingHWMC;
 import eu.luepg.vertx.util.Const;
 import eu.luepg.vertx.util.DeployHelper;
 import eu.luepg.vertx.verticle.HelloWorldVerticle;
@@ -20,7 +20,7 @@ import org.junit.runner.RunWith;
  * Created on 18.09.2018.
  */
 @RunWith(VertxUnitRunner.class)
-public class HelloWorldFailedGuiceVerticleTest {
+public class HWWithMissingMCVerticleTest {
     private Vertx vertx;
 
     @Before
@@ -29,7 +29,7 @@ public class HelloWorldFailedGuiceVerticleTest {
         DeploymentOptions options = new DeploymentOptions()
                 .setWorker(true)
                 .setWorkerPoolSize(1);
-        DeployHelper.deploy(vertx, HelloWorldVerticle.class, options, TestGuiceBinder.class).setHandler(testContext.asyncAssertSuccess());
+        DeployHelper.deploy(vertx, HelloWorldVerticle.class, options, TestGuiceBinderMissingHWMC.class).setHandler(testContext.asyncAssertSuccess());
     }
 
     @After
@@ -39,7 +39,7 @@ public class HelloWorldFailedGuiceVerticleTest {
 
 
     @Test
-    public void testEventBus(TestContext context) {
+    public void itShouldNotHandleTheEvent(TestContext context) {
         vertx.eventBus().send(Const.EVENT_ADDRESS, null, event -> context.assertFalse(event.succeeded()));
     }
 }

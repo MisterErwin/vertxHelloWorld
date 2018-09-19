@@ -37,6 +37,8 @@ public class HelloWorldVerticle extends AbstractVerticle {
                 ret.put("value", messageCreator.getMessage());
                 event.reply(ret.encode());
             });
+        } else {
+            consumer.handler(e -> e.fail(0, "No Message Creator"));
         }
     }
 }

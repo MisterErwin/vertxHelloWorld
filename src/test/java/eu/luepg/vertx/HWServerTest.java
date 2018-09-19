@@ -16,7 +16,7 @@ import org.junit.runner.RunWith;
  * Created on 18.09.2018.
  */
 @RunWith(VertxUnitRunner.class)
-public class HelloWorldServerTest {
+public class HWServerTest {
     private Vertx vertx;
 
     @Before

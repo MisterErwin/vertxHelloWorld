@@ -1,5 +1,6 @@
 package eu.luepg.vertx;
 
+import eu.luepg.vertx.guice.TestGuiceBinderFailingHWMC;
 import eu.luepg.vertx.util.Const;
 import eu.luepg.vertx.util.DeployHelper;
 import eu.luepg.vertx.verticle.HelloWorldVerticle;
@@ -13,13 +14,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Tests if the HelloWorldVerticle consumes the event on the eventbus and returns the correct value
+ * Tests if we fail correctly when the {@link eu.luepg.vertx.api.message.IHelloWorldMessageCreator} throws an Exception
  *
  * @author elmexl
  * Created on 18.09.2018.
  */
 @RunWith(VertxUnitRunner.class)
-public class HelloWorldVerticleTest {
+public class HWWithErrorThrowingMCTest {
     private Vertx vertx;
 
     @Before
@@ -28,7 +29,8 @@ public class HelloWorldVerticleTest {
         DeploymentOptions options = new DeploymentOptions()
                 .setWorker(true)
                 .setWorkerPoolSize(1);
-        DeployHelper.deploy(vertx, HelloWorldVerticle.class, options).setHandler(testContext.asyncAssertSuccess());
+        DeployHelper.deploy(vertx, HelloWorldVerticle.class, options, TestGuiceBinderFailingHWMC.class).setHandler(testContext.asyncAssertSuccess());
+
     }
 
     @After
@@ -38,10 +40,7 @@ public class HelloWorldVerticleTest {
 
 
     @Test
-    public void testEventBus(TestContext context) {
-        vertx.eventBus().send(Const.EVENT_ADDRESS, null, event -> {
-            context.assertTrue(event.succeeded());
-            context.assertEquals("{\"value\":\"Hello World\"}", event.result().body().toString());
-        });
+    public void itShouldNotHandleTheEvent(TestContext context) {
+        vertx.eventBus().send(Const.EVENT_ADDRESS, null, event -> context.assertFalse(event.succeeded()));
     }
 }

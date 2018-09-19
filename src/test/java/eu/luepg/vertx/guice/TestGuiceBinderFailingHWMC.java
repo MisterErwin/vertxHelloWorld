@@ -11,7 +11,7 @@ import eu.luepg.vertx.api.message.IHelloWorldMessageCreator;
  * @author elmexl
  * Created on 18.09.2018.
  */
-public class TestGuiceBinder extends AbstractModule {
+public class TestGuiceBinderFailingHWMC extends AbstractModule {
     @Override
     protected void configure() {
         //Nothing here
@@ -20,8 +20,9 @@ public class TestGuiceBinder extends AbstractModule {
     @Provides
     @Singleton
     public IHelloWorldMessageCreator provideIHelloWorldMessageCreator() {
-        return null;
+        return () -> {
+            throw new RuntimeException("This exception should be handled");
+        };
     }
-
 
 }

@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
  * Created on 18.09.2018.
  */
 @RunWith(VertxUnitRunner.class)
-public class HelloWorldServerFailureTest {
+public class HWWithAlreadyBoundPortTest {
     private Vertx vertxA;
     private Vertx vertxB;
 
@@ -33,7 +33,7 @@ public class HelloWorldServerFailureTest {
 
 
     @Test
-    public void startSecond(TestContext context) {
+    public void itShouldNotStartASecondServer(TestContext context) {
         vertxB = Vertx.vertx();
         Main.start(vertxB).setHandler(context.asyncAssertFailure());
     }

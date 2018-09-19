@@ -10,6 +10,10 @@ import io.vertx.core.*;
  * Created on 18.09.2018.
  */
 public class Main {
+
+    private Main() {
+    }
+
     /**
      * Entry point
      *
